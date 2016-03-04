@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Salooooooonnnnnn</title>
+  </head>
+  <body>
+    <h1>Welcome to Conners Beauty Salon.</h1>
+
+    <h3><a href="/stylists">Add or view a Stylist</a></h3>
+    {% if stylists is not empty %}
+      <ul>
+        {% for stylist in stylists %}
+          <li><a href="/stylists/{{ stylist.getId }}">{{ stylist.getName }}</a> {{ stylist.getPhone }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+  </body>
+</html>

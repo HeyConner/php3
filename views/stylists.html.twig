@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>Saloooon</title>
+</head>
+<body>
+    <h1>Stylists</h1>
+
+    {% if stylists is not empty %}
+        <p>Here are all your Stylists:</p>
+        <ul>
+            {% for stylist in stylists %}
+                <li><a href="/stylists/{{ stylist.getId }}">{{ stylist.getName }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action='/stylists' method='post'>
+        <label for='name'>Stylist name:</label>
+        <input id='name' name='name' type='text'>
+
+        <button type='submit'>Add Stylist</button>
+    </form>
+    <form action='/delete_stylists' method='post'>
+        <button type='submit'>Clear</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+</body>
+</html>

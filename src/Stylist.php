@@ -3,13 +3,11 @@
     class Stylist {
 
         private $name;
-        private $phone
         private $id;
 
-        function __construct($name, $phone, $id = null) {
+        function __construct($name, $id = null) {
             $this->name = $name;
             $this->id = $id;
-            $this->phone = $phone;
         }
         function getName() {
             return $this->name;
@@ -20,14 +18,8 @@
         function getId() {
             return $this->id;
         }
-        function getPhone() {
-            return $this->phone;
-        }
-        function setPhone($new_phone) {
-            $this->phone = $new_phone;
-        }
         function save() {
-            $GLOBALS['DB']->exec("INSERT INTO stylists (name, phone) VALUES ('{$this->getName()}');");
+            $GLOBALS['DB']->exec("INSERT INTO stylists (name) VALUES ('{$this->getName()}');");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
         function update($new_name){
@@ -40,10 +32,10 @@
         static function getAll() {
             $returned_stylist = $GLOBALS['DB']->query("SELECT * FROM stylists;");
             $stylists = array();
-            foreach($returned_stylists as $stylist) {
+            foreach($returned_stylist as $stylist) {
                 $name = $stlyist['name'];
                 $id = $stylist['id'];
-                $new_stylist = new Stylist($name, $phone, $id);
+                $new_stylist = new Stylist($name, $id);
                 array_push($stylists, $new_stylist);
         }
                 return $stylists;
@@ -70,7 +62,7 @@
             foreach($returned_clients as $client) {
                 $name = $client['name'];
                 $id = $client['id'];
-                $new_client = new Client($name, $phone, $id);
+                $new_client = new Client($name, $id);
                 array_push($clients, $new_client);
             }
                 return $clients;

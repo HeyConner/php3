@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Salooooon</title>
+</head>
+<body>
+    <h1>{{ found_stylist.getName }}</h1>
+
+    {% if clients is not empty %}
+        <p>Here are the clients:</p>
+        <ul>
+            {% for client in clients %}
+                <li>{{ client.getName }} {{ client.getPhone }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h4>Add a Client</h4>
+
+    <form action='/stylists/{{ found_stylist.getId }}' method='post'>
+      <label for="name">Add a New Client</label>
+      <input id="name" name="name" type="text">
+      <p>
+        {% for stylist in stylists %}
+          {{ stylist.getName }}<input type="checkbox" name="stylist_id[]" value="{{ stylist.getId }}"><br/>
+        {% endfor %}
+      </p>
+      <button type="submit" name="button">Add</button>
+    </form>
+
+    <form action="/delete_stylist_clients/{{ found_stylist.getId }}" method="post">
+      <button type="submit"> Delete Clients</button>
+    </form>
+    <p><a href='/'>Home</a></p>
+</body>
+</html>

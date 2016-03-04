@@ -14,7 +14,7 @@
         function getname(){
             return $this->name;
         }
-        function setPhone(new_phone){
+        function setPhone($new_phone){
         	$this->phone;
         }
         function getPhone() {
@@ -49,12 +49,12 @@
             }
             return $found_client;
         }
-        function update($new_name)
+        function updateName($new_name)
         {
             $GLOBALS['DB']->exec("UPDATE clients SET name = '{$new_name}' WHERE id = {$this->getId()};");
             $this->setName($new_name);
         }
-        function update($new_phone) {
+        function updatePhone($new_phone) {
         	$GLOBALS['DB']->exec("UPDATE clients SET phone '{$new_phone}' WHERE id = {$this->getId()};");
         	$this->setPhone($new_phone);
         }
@@ -83,7 +83,7 @@
                 $new_stylist = new Stylist($name, $phone, $id);
                 array_push($stylists, $new_stylist);
             }
-            return $stylist;
+            return $stylists;
         }
     }
 ?>
