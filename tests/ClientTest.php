@@ -9,8 +9,6 @@
     $username = 'root';
     $password = 'root';
     $DB = new PDO($server, $username, $password);
-
-
     class ClientTest extends PHPUnit_Framework_TestCase{
         protected function tearDown(){
             Client::deleteAll();
@@ -18,102 +16,113 @@
         }
         function test_save()
         {
-            $name = "Conner";
-            $id = 1;
-            $phone = "2538610983";
-            $test_client = new Client($name, $phone, $id);
+            $stylist_name = "Conner Belvin";
+            $id = null;
+            $test_stylist = new Stylist($stylist_name, $id);
+            $test_stylist->save();
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $stylist_id = $test_stylist->getId();
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
             $test_client->save();
             $result = Client::getAll();
             $this->assertEquals($test_client, $result[0]);
         }
         function test_getId()
         {
-            $name = "Conner";
-            $phone = "2538610983";
-            $id = 1;
-            $test_client = new Client($name, $phone, $id);
+            $stylist_name = "Conner Belvin";
+            $id = null;
+            $test_stylist = new Stylist($stylist_name, $id);
+            $test_stylist->save();
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $stylist_id = $test_stylist->getId();
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
             $test_client->save();
             $result = $test_client->getId();
             $this->assertEquals(true, is_numeric($result));
         }
+        function test_getStylistId(){
+            $stylist_name = "Conner Belvin";
+            $id = null;
+            $test_stylist = new Stylist($stylist_name, $id);
+            $test_stylist->save();
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $stylist_id = $test_stylist->getId();
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
+            $test_client->save();
+            $result = $test_client->getStylistId();
+            $this->assertEquals(true, is_numeric($result));
+        }
         function test_getAll()
         {
-            $name = "Conner";
-            $id = 1;
-            $phone = "2538610983";
-            $test_client= new client($name, $phone, $id);
+            $stylist_name = "Conner Belvin";
+            $id = null;
+            $test_stylist = new Stylist($stylist_name, $id);
+            $test_stylist->save();
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $stylist_id = $test_stylist->getId();
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
             $test_client->save();
-            $name2 = "Abby";
-            $phone2 = "1234567891";
-            $id2 = 2;
-            $test_client2 = new client($name2, $phone2, $id2);
+            $client_name2 = "Bobby Belvin";
+            $email2 = "pstyles@email.com";
+            $test_client2 = new Client($client_name2, $email2, $id, $stylist_id);
             $test_client2->save();
-            $result = client::getAll();
+            $result = Client::getAll();
             $this->assertEquals([$test_client, $test_client2], $result);
         }
         function test_deleteAll()
         {
-            $name = "Conner";
-            $phone = "2538610983";
-            $id = 1;
-            $test_client= new client($name, $id);
+            $stylist_name = "Conner Belvin";
+            $id = null;
+            $test_stylist = new Stylist($stylist_name, $id);
+            $test_stylist->save();
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $stylist_id = $test_stylist->getId();
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
             $test_client->save();
-            $name2 = "Abby";
-            $phone2 = "1234567891";
-            $id2 = 2;
-            $test_client2 = new client($name2, $id);
+            $client_name2 = "Bobby Belvin";
+            $email2 = "pstyles@email.com";
+            $test_client2 = new Client($client_name2, $email2, $id, $stylist_id);
             $test_client2->save();
-            client::deleteAll();
-            $result = client::getAll();
+            Client::deleteAll();
+            $result = Client::getAll();
             $this->assertEquals([], $result);
         }
         function test_find(){
-            $name = "Conner";
-            $phone = "2538610983";
-            $name2 = "Abby";
-            $phone2 = "1234567891";
-            $id = 1;
-            $id2 = 2;
-            $test_client= new client($name, $phone, $id);
-            $test_client2 = new client($name2, $phone2, $id);
+            $stylist_name = "Conner Belvin";
+            $id = null;
+            $test_stylist = new Stylist($stylist_name, $id);
+            $test_stylist->save();
+            $stylist_id = $test_stylist->getId();
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $client_name2 = "Bobby Belvin";
+            $email2 = "cbelvin@gmail.com";
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
+            $test_client2 = new Client($client_name2, $email2, $id, $stylist_id);
             $test_client->save();
             $test_client2->save();
-            $result = client::find($test_client->getId());
+            $result = Client::find($test_client->getId());
             $this->assertEquals($test_client, $result);
         }
-        function testAddStylist(){
-            $name = "Conner";
-            $phone = "2538610983";
-            $id = 1;
-            $test_stylist = new stylist($name, $phone, $id);
-            $test_stylist->save();
-            $name2 = "Abby";
-            $phone = "1234567891";
-            $id2 = 2;
-            $test_client= new client($name2, $phone2, $id2);
+        function test_delete()
+        {
+            $id = null;
+            $stylist_id = 1;
+            $client_name = "Teirsa Belvin";
+            $email = "cbelvin@gmail.com";
+            $test_client = new Client($client_name, $email, $id, $stylist_id);
             $test_client->save();
-            $test_client->addStylist($test_stylist);
-            $this->assertEquals($test_client->getStylists(), [$test_stylist]);
-        }
-        function testGetStylists(){
-            $name = "Conner";
-            $phone = "2538610983";
-            $id = 1;
-            $test_stylist = new stylist($name, $phone, $id);
-            $test_stylist->save();
-            $name2 = "Abby";
-            $phone2 = "1234567891";
-            $id2 = 2;
-            $test_stylist2 = new stylist($name2, $phone2, $id2);
-            $test_stylist2->save();
-            $name3 = "Ben";
-            $phone3 = "9876543211";
-            $id3 = 3;
-            $test_client= new client($name3, $phone3, $id3);
-            $test_client->save();
-            $test_client->addstylist($test_stylist);
-            $test_client->addstylist($test_stylist2);
-            $this->assertEquals($test_client->getStylists(), [$test_stylist, $test_stylist2]);
+            $client_name2 = "Bobby Belvin";
+            $email2 = "pstyles@email.com";
+            $test_client2 = new Client($client_name2, $email2, $id, $stylist_id);
+            $test_client2->save();
+            $test_client->delete();
+            $this->assertEquals([$test_client2], Client::getAll());
         }
     }
 ?>

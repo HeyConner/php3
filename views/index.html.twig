@@ -1,19 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Salooooooonnnnnn</title>
+    <title>Salon</title>
   </head>
   <body>
-    <h1>Welcome to Conners Beauty Salon.</h1>
+    <h1>Get your hair done!</h1>
 
-    <h3><a href="/stylists">Add or view a Stylist</a></h3>
+    <p>New Stylist:</p>
+
+    <form action="/stylists" method="post">
+       <label for="name">Stylist:</label>
+       <input id="name" name="name" type="text">
+
+       <button type="submit">Add</button>
+    </form>
+
     {% if stylists is not empty %}
-      <ul>
-        {% for stylist in stylists %}
-          <li><a href="/stylists/{{ stylist.getId }}">{{ stylist.getName }}</a> {{ stylist.getPhone }}</li>
-        {% endfor %}
-      </ul>
+        <p>All stylists:</p>
+        <ul>
+            {% for stylist in stylists %}
+                <li><a href="/stylists/{{ stylist.getId }}">{{ stylist.getName }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No stylists added yet!</p>
     {% endif %}
+
+    <form action="/deleted" method="post">
+        <button type="submit">Delete Stylists</button>
+    </form>
 
   </body>
 </html>

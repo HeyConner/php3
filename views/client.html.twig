@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Salon</title>
+  </head>
+  <body>
+    <h1>{{ client.getClientName }}</h1>
+    <ul>
+        <li>{{ client.getEmail }}</li>
+    </ul>
+
+
+    <h4>Update {{ client.getClientName }}'s email:</h4>
+    <form action="/client/{{ client.getId }}/updated" method="post">
+        <input name="_method" type="hidden" value="patch">
+        <label for="new_email">New Email Address:</label>
+        <input type="text" name="new_email">
+        <button type="submit">Update Email</button>
+    </form>
+
+    <form action="/client/{{ client.getId }}/deleted" method="post">
+
+        <input name="_method" type="hidden" value="delete">
+        <button type='submit'>Delete Client</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+  </body>
+</html>

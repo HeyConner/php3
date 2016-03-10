@@ -1,74 +1,67 @@
 <?php
-
-    class Stylist {
-
+    class Stylist{
         private $name;
         private $id;
-
-        function __construct($name, $id = null) {
+        function __construct($name, $id = null){
             $this->name = $name;
             $this->id = $id;
         }
-        function getName() {
+        function getName(){
             return $this->name;
         }
-        function setName($new_name){
-          $this->name = $new_name;
+        function setName(){
+            $this->name = $name;
         }
-        function getId() {
+        function getId(){
             return $this->id;
         }
-        function save() {
+        function save(){
             $GLOBALS['DB']->exec("INSERT INTO stylists (name) VALUES ('{$this->getName()}');");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
-        function update($new_name){
-            $GLOBALS['DB']->exec("UPDATE stylists SET name = '{$new_name}' WHERE id = {$this->getId()};");
-            $this->id = $GLOBALS['DB']->lastInsertId();
+        function delete()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM stylists WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM clients WHERE stylist_id = {$this->getId()};");
         }
-        function addClient($client){
-            $GLOBALS['DB']->exec("INSERT INTO stylists_clients(stylist_id, client_id) VALUES ({$this->getId()}, {$client->getId()});");
+        static function deleteAll(){
+            $GLOBALS['DB']->exec("DELETE FROM stylists;");
         }
-        static function getAll() {
-            $returned_stylist = $GLOBALS['DB']->query("SELECT * FROM stylists;");
+        static function getAll()
+        {
+            $returned_stylists = $GLOBALS['DB']->query("SELECT * FROM stylists;");
             $stylists = array();
-            foreach($returned_stylist as $stylist) {
-                $name = $stlyist['name'];
+            foreach($returned_stylists as $stylist) {
+                $name = $stylist['name'];
                 $id = $stylist['id'];
                 $new_stylist = new Stylist($name, $id);
                 array_push($stylists, $new_stylist);
-        }
-                return $stylists;
-        }
-
-        static function deleteAll() {
-            $GLOBALS['DB']->exec("DELETE FROM stylists;");
-        }
-        static function find($search_id) {
-            $found_stylist = null;
-            $stylist = Stylist::getAll();
-            foreach($stylists as $stylist) {
-                $stylist_id = $stylist->getId();
-                if ($stylist_id == $search_id) {
-                  $found_stylist = $stylist;
             }
+            return $stylists;
         }
-                return $found_stylist;
+        static function find($search_id){
+            $found_stylist = null;
+            $stylists = Stylist::getAll();
+            foreach($stylists as $stylist) {
+              $stylist_id = $stylist->getId();
+              if ($stylist_id == $search_id) {
+                $found_stylist = $stylist;
+                }
+            }
+            return $found_stylist;
         }
-        function getClients()
-        {
-            $returned_clients = $GLOBALS['DB']->query("SELECT clients.* FROM stylists JOIN stylists_clients ON (stylists_clients.stylist_id = stylists.id) JOIN clients ON (clients.id = stylists_clients.client_id) WHERE stylists.id = {$this->getId()};");
+        function getClients(){
             $clients = array();
-            foreach($returned_clients as $client) {
+            $returned_clients = $GLOBALS['DB']->query("SELECT * FROM clients WHERE stylist_id = {$this->getId()};");
+            foreach($returned_clients as $client){
                 $name = $client['name'];
+                $email = $client['email'];
                 $id = $client['id'];
-                $new_client = new Client($name, $id);
+                $stylist_id = $client['stylist_id'];
+                $new_client = new Client($name, $email, $id, $stylist_id);
                 array_push($clients, $new_client);
             }
-                return $clients;
-        }
-        function deleteStylistClient(){
-            $GLOBALS['DB']->exec("DELETE FROM stylists_clients WHERE stylist_id = {$this->getId()};");
+            return $clients;
         }
     }
 ?>

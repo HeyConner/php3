@@ -1,35 +1,35 @@
 <html>
 <head>
-    <title>Salooooon</title>
+    <title>Salon</title>
 </head>
 <body>
-    <h1>{{ found_stylist.getName }}</h1>
+    <h1>{{ stylist.getName }}</h1>
 
     {% if clients is not empty %}
-        <p>Here are the clients:</p>
+        <p>The clients:</p>
         <ul>
             {% for client in clients %}
-                <li>{{ client.getName }} {{ client.getPhone }}</li>
+                <li><a href="/client/{{ client.getId }}">{{ client.getClientName }}</a> : {{client.getEmail }}</li>
             {% endfor %}
         </ul>
     {% endif %}
 
-    <h4>Add a Client</h4>
+    <h4>Add Client</h4>
 
-    <form action='/stylists/{{ found_stylist.getId }}' method='post'>
-      <label for="name">Add a New Client</label>
-      <input id="name" name="name" type="text">
-      <p>
-        {% for stylist in stylists %}
-          {{ stylist.getName }}<input type="checkbox" name="stylist_id[]" value="{{ stylist.getId }}"><br/>
-        {% endfor %}
-      </p>
-      <button type="submit" name="button">Add</button>
+    <form action='/clients' method='post'>
+        <div>
+            <input id="stylist_id" name="stylist_id" type="hidden" value="{{ stylist.getId }}">
+
+            <label for='client_name'>Client Name:</label>
+            <input id='client_name' name='client_name' type='text'>
+        </div>
+        <div>
+            <label for='email'>Client Email:</label>
+            <input id='email' name='email' type='text'>
+        </div>
+        <button type='submit'>Add</button>
     </form>
 
-    <form action="/delete_stylist_clients/{{ found_stylist.getId }}" method="post">
-      <button type="submit"> Delete Clients</button>
-    </form>
     <p><a href='/'>Home</a></p>
 </body>
 </html>
